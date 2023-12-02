@@ -1,0 +1,35 @@
+{% extends 'Product/index.html' %}
+{% block title %}Product{% endblock %}
+
+{% block content %}
+    {% if is_paginated %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current-page">{{ page_obj.number }}</span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+            {% endif %}
+        </div>
+    {% endif %}
+    {% for prod in products %}
+        <div class="block"
+             style="border: 1px solid #fd0000; margin: 100px; padding: 10px; padding-left: 300px; background-color: #dddaf0;">
+            <h1>Название - {{ prod.name }} meow</h1>
+            <h2>Описание - {{ prod.description }}</h2>
+            <h2>Категория - {{ prod.category.name }}</h2>
+            <h2>Марка - {{ prod.mark }}</h2>
+            <h2>Количество - {{ prod.count }}</h2>
+            <h2>Цена - {{ prod.payment.price }} {{ prod.payment.currency.upper }}</h2>
+            <h2>Характеристики:</h2>
+            <ul>
+                {% for prop in prod.properties.all %}
+                    <li>{{ prop }} : {{ prop.value }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+{% endblock %}

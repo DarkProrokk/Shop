@@ -1,4 +1,5 @@
 {% extends 'Product/index.html' %}
+{% load static %}
 {% block title %}Product{% endblock %}
 
 {% block content %}
@@ -16,20 +17,37 @@
         </div>
     {% endif %}
     {% for prod in products %}
-        <div class="block"
-             style="border: 1px solid #fd0000; margin: 100px; padding: 10px; padding-left: 300px; background-color: #dddaf0;">
-            <h1>Название - {{ prod.name }} meow</h1>
-            <h2>Описание - {{ prod.description }}</h2>
-            <h2>Категория - {{ prod.category.name }}</h2>
-            <h2>Марка - {{ prod.mark }}</h2>
-            <h2>Количество - {{ prod.count }}</h2>
-            <h2>Цена - {{ prod.payment.price }} {{ prod.payment.currency.upper }}</h2>
-            <h2>Характеристики:</h2>
-            <ul>
-                {% for prop in prod.properties.all %}
-                    <li>{{ prop }} : {{ prop.value }}</li>
-                {% endfor %}
-            </ul>
-        </div>
+        {% if prod.count > 0 %}
+            <div class="block"
+                 style="border: 1px solid #fd0000; margin: 100px; padding: 10px; padding-left: 300px; background-color: #dddaf0;">
+                <h1>Название - {{ prod.name }} meow</h1>
+                <h2>Описание - {{ prod.description }}</h2>
+                <h2>Категория - {{ prod.category.name }}</h2>
+                <h2>Марка - {{ prod.mark }}</h2>
+                <h2>Количество - {{ prod.count }}</h2>
+                <h2>Цена - {{ prod.payment.price }} {{ prod.payment.currency.upper }}</h2>
+                <h2>Характеристики:</h2>
+                <ul>
+                    {% for prop in prod.properties.all %}
+                        <li>{{ prop }} : {{ prop.value }}</li>
+                    {% endfor %}
+                </ul>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.errors.as_data}}
+                    <input type="hidden" name="{{ form.product.name }}" value="{{ prod.pk }}">
+                    <input type="hidden" name="{{ form.cart.name }}" value="{{ user.cart.pk }}">
+                    {{ form.quantity.label_tag }} {{ form.quantity }}<br>
+                    <button type="submit">Добавить в корзину</button>
+                </form>
+                {#                <form method="post">#}
+                {#                    {% csrf_token %}#}
+                {#                    {{ form.quantity }}#}
+                {#                    <input type="hidden" name="product_id" value="{{ prod.id }}">#}
+                {#                    <button type="submit">Добавить в корзину</button>#}
+                {#                </form>#}
+            </div>
+        {% endif %}
     {% endfor %}
+    <script src="{% static 'Product/js/product.js' %}"></script>
 {% endblock %}

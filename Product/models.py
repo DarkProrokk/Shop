@@ -41,6 +41,12 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    def payment_price(self):
+        return self.payment.price
+
+    def payment_currency(self):
+        return self.payment.currency
+
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"

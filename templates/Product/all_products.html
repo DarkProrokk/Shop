@@ -34,10 +34,9 @@
                 </ul>
                 <form method="post">
                     {% csrf_token %}
-                    {{ form.errors.as_data}}
                     <input type="hidden" name="{{ form.product.name }}" value="{{ prod.pk }}">
                     <input type="hidden" name="{{ form.cart.name }}" value="{{ user.cart.pk }}">
-                    {{ form.quantity.label_tag }} {{ form.quantity }}<br>
+                    {{ form.quantity.label_tag }} {{ form.quantity }}
                     <button type="submit">Добавить в корзину</button>
                 </form>
                 {#                <form method="post">#}

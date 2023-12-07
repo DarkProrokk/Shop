@@ -1,8 +1,9 @@
 from django.shortcuts import render, HttpResponse
 from django.views.generic import ListView
 from rest_framework import viewsets
-from Cart.models import CartItem
+
 from Cart.forms import CartItemForm
+from Cart.models import CartItem
 from .models import Product, Mark
 from .serializers import ProductSerializer, MarkSerializer
 
@@ -13,8 +14,6 @@ def index(request):
 
 
 def test(request):
-    prod = Product.objects.all()
-    print(prod)
     return HttpResponse("<h1>Just Test Page</h1>")
 
 
@@ -42,13 +41,12 @@ class ProductListView(ListView):
             quantity = form.cleaned_data['quantity']
             cart = form.cleaned_data['cart']
             product = form.cleaned_data['product']
-
-            print('asd')
             CartItem.objects.create(quantity=quantity, cart=cart, product=product)
         else:
             # Если форма не прошла валидацию, добавьте ошибки формы в контекст шаблона
             context['form_errors'] = form.errors
         return self.render_to_response(context)
+
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()

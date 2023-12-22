@@ -33,7 +33,6 @@ class ProductListView(ListView):
 
     def post(self, request, *args, **kwargs):
         self.object_list = self.get_queryset()
-
         context = self.get_context_data()
         form = self.form_class(request.POST)
         context['form'] = form
@@ -43,7 +42,6 @@ class ProductListView(ListView):
             product = form.cleaned_data['product']
             CartItem.objects.create(quantity=quantity, cart=cart, product=product)
         else:
-            # Если форма не прошла валидацию, добавьте ошибки формы в контекст шаблона
             context['form_errors'] = form.errors
         return self.render_to_response(context)
 

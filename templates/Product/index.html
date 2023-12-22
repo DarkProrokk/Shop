@@ -4,8 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Index{% endblock %}</title>
+    {% block head %}
+    {% endblock %}
+    <link rel="stylesheet" href="{% static 'Product/css/index.css' %}">
 </head>
-<body style="background-color: #f0ebaa">
+<body>
+<header>
+    <div class="container">
+        <nav>
+            <img src="" alt="">
+            <ul>
+                <li><a href="{% url 'catalog' %}">Каталог</a></li>
+                <li><a href="{% url "cart" %}">Корзина</a></li>
+                <li><a href="{% url 'user' %}">Пользователь</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Contacts</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
 {% block content %}
 {% endblock %}
 </body>

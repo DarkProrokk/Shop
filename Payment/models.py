@@ -14,7 +14,10 @@ class ItemPaymentInfo(models.Model):
     currency = models.CharField(max_length=50, choices=choices, verbose_name="Валюта")
 
     def __str__(self):
-        return f'{self.product.name} Payment'
+        try:
+            return f'{self.product.name} Payment'
+        except Exception:
+            return f'meow'
 
     class Meta:
         verbose_name = "Платёжная информация товара"

@@ -1,7 +1,9 @@
 {% extends 'Product/index.html' %}
 {% load static %}
 {% block title %}Product{% endblock %}
-
+{% block head %}
+    <link rel="stylesheet" href="{% static 'Product/css/items.css' %}">
+{% endblock %}
 {% block content %}
     {% if is_paginated %}
         <div class="pagination">
@@ -18,8 +20,7 @@
     {% endif %}
     {% for prod in products %}
         {% if prod.count > 0 %}
-            <div class="block"
-                 style="border: 1px solid #fd0000; margin: 100px; padding: 10px; padding-left: 300px; background-color: #dddaf0;">
+            <div class="block">
                 <h1>Название - {{ prod.name }} meow</h1>
                 <h2>Описание - {{ prod.description }}</h2>
                 <h2>Категория - {{ prod.category.name }}</h2>

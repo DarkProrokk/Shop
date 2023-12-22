@@ -1,7 +1,8 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, HttpResponse, redirect
 from django.views import View
 from django.views.generic import DetailView
+
 # Create your views here.
 from .forms import LoginForm, RegistrationForm
 from .models import CustomUser
@@ -23,7 +24,7 @@ class LoginView(View):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('user')
+                return redirect('catalog')
             else:
                 return HttpResponse("<h1> Invalid login or password </h1>")
         return render(request, self.template_name, {'form': form})
@@ -51,6 +52,13 @@ class UserView(DetailView):
     template_name = "User/user.html"
     context_object_name = 'user'
 
-    # def get(self, request, username):
-    #     user = self.get_object()
-    #     return render(request, self.template_name, {'user': user})
+    def get(self, request):
+        if request.user.is_anonymous:
+            return redirect('login')
+        user = self.model.objects.get(pk=request.user.id)
+        return render(request, self.template_name, {'user': user})
+
+
+def logoutView(request):
+    logout(request)
+    return redirect('catalog')

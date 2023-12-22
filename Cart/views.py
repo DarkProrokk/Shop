@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import DetailView
 from django.db import models
 from .models import Cart
@@ -13,5 +13,7 @@ class CartView(DetailView):
     context_object_name = 'cart'
 
     def get(self, request, *args, **kwargs):
-        cart = Cart.objects.get(pk=1)
+        if not request.user.is_authenticated:
+            return redirect('login')
+        cart = Cart.objects.get(pk=request.user.id)
         return render(request, 'Cart/cart.html', {'cart': cart})

@@ -18,12 +18,15 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from Product.views import ProductViewSet, MarkViewSet
+from django.shortcuts import render
 
 router = routers.SimpleRouter()
 router.register('product', ProductViewSet)
 router.register('mark', MarkViewSet)
 
+
 urlpatterns = [
+    path('', lambda request: render(request, 'Product/index.html')),
     path('admin/', admin.site.urls),
     path('product/', include('Product.urls')),
     path('api/v1/', include(router.urls)),

@@ -3,16 +3,18 @@
 <h1>Корзина пользователя {{ cart.user.username }}</h1>
 <form method="post">
     <ul>
-        {% for item in cart.products.all %}
+        {% for item in cart.all %}
             <li><input type="checkbox" name="{{ item.product.pk }}">
                 {{ item.product.name }}
                 {{ item.product.payment_price }}
                 {{ item.product.payment_currency }}
                 {{ item.quantity }}
+                {{ item.total_price }}
             </li>
         {% endfor %}
         {% csrf_token %}
         <button type="submit">Оплатить -- {{ total_price }}</button>
     </ul>
+
 </form>
 {% endblock %}

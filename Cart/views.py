@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import DetailView
 from django.db import models
 from .models import Cart
-
+from django.db.models import F
 
 # Create your views here.
 
@@ -16,4 +16,5 @@ class CartView(DetailView):
         if not request.user.is_authenticated:
             return redirect('login')
         cart = Cart.objects.get(pk=request.user.id)
-        return render(request, 'Cart/cart.html', {'cart': cart})
+        cart_items = cart.products.all().annotate(total_price=(F('product__payment__price') * F('quantity')))
+        return render(request, 'Cart/cart.html', {'cart': cart_items})
